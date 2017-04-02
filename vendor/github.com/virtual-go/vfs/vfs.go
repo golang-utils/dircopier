@@ -2,7 +2,9 @@ package vfs
 
 //go:generate counterfeiter -o ./fake.go --fake-name Fake ./ Vfs
 
-import "os"
+import (
+	"os"
+)
 
 // virtual filesystem interface
 type Vfs interface {
@@ -32,6 +34,10 @@ type Vfs interface {
 	// descriptor has mode O_RDONLY.
 	// If there is an error, it will be of type *PathError.
 	Open(name string) (*os.File, error)
+
+	// ReadDir reads the directory named by dirname and returns
+	// a list of directory entries sorted by filename.
+	ReadDir(dirname string) ([]os.FileInfo, error)
 
 	// RemoveAll removes path and any children it contains.
 	// It removes everything it can but returns the first error
