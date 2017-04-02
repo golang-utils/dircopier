@@ -165,22 +165,28 @@
 			"revisionTime": "2016-03-05T21:39:52Z"
 		},
 		{
-			"checksumSHA1": "R/lmoEJF5pHtaidxIlozxtbvcFU=",
-			"path": "github.com/opctl/opctl/util/filecopier",
-			"revision": "4885dc611c1050eb26b31f8c40c061be91855545",
-			"revisionTime": "2017-03-28T18:37:21Z"
+			"checksumSHA1": "HpZvSlyGzppjLUQO37YEjvN8moU=",
+			"path": "github.com/virtual-go/filecopier",
+			"revision": "54024e056f8634d31716fcd79f39c831e6ffdc58",
+			"revisionTime": "2017-04-02T02:27:30Z"
 		},
 		{
-			"checksumSHA1": "6AtA2qV6NFCRr9Tyi+jSBTnyy1U=",
-			"path": "github.com/virtual-go/vfs",
-			"revision": "07167dd2be5a786698c9152accee8509215ae97b",
-			"revisionTime": "2017-04-02T00:08:56Z"
+			"checksumSHA1": "pLZ5BU3jahIsIsrbJbqg2fbCBw0=",
+			"path": "github.com/virtual-go/fs",
+			"revision": "5185240b732f6c7766c97e93862422ec2da97197",
+			"revisionTime": "2017-04-02T01:50:31Z"
 		},
 		{
-			"checksumSHA1": "eYh1BiYtRnxgoqWfo4NEhfawlNk=",
-			"path": "github.com/virtual-go/vfs/osfs",
-			"revision": "07167dd2be5a786698c9152accee8509215ae97b",
-			"revisionTime": "2017-04-02T00:08:56Z"
+			"checksumSHA1": "770ybk1KcZmyv0Kl9NlRkF3G/g0=",
+			"path": "github.com/virtual-go/fs/osfs",
+			"revision": "5185240b732f6c7766c97e93862422ec2da97197",
+			"revisionTime": "2017-04-02T01:50:31Z"
+		},
+		{
+			"checksumSHA1": "fTG1wAxniPbBKTEFKhDnaZAm1oo=",
+			"path": "github.com/virtual-go/vioutil",
+			"revision": "bf7ba12eadbbad8b54db76f160e55347cd1ed567",
+			"revisionTime": "2017-04-02T02:09:25Z"
 		}
 	],
 	"rootPath": "github.com/virtual-go/dircopier"

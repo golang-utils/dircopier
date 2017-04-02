@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/virtual-go/dircopier.svg?branch=master)](https://travis-ci.org/virtual-go/dircopier)
-[![Coverage](https://codecov.io/gh/virtual-go/dircopier/branch/master/graph/badge.svg)](https://codecov.io/gh/virtual-go/dircopier)
+[![Build Status](https://travis-ci.org/virtual-go/filecopier.svg?branch=master)](https://travis-ci.org/virtual-go/filecopier)
+[![Coverage](https://codecov.io/gh/virtual-go/filecopier/branch/master/graph/badge.svg)](https://codecov.io/gh/virtual-go/filecopier)
 
 # problem statement
 
-golang package for copying dirs in virtual-go
+golang package for copying files in virtual-go
 
 # features
 
@@ -19,7 +19,7 @@ golang package for copying dirs in virtual-go
 
 for every release:
 
-- source code will be [tagged](https://github.com/virtual-go/dircopier/tags).
+- source code will be [tagged](https://github.com/virtual-go/filecopier/tags).
 
 # Versioning
 
