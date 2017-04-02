@@ -7,7 +7,6 @@ import (
 	"github.com/opctl/opctl/util/filecopier"
 	"github.com/virtual-go/vfs"
 	"github.com/virtual-go/vfs/osfs"
-	"io/ioutil"
 	"path"
 )
 
@@ -47,8 +46,7 @@ func (this dirCopier) Fs(srcPath string, dstPath string) (err error) {
 		return
 	}
 
-	// @TODO: remove dependence on real fs here
-	entries, err := ioutil.ReadDir(srcPath)
+	entries, err := this.fs.ReadDir(srcPath)
 
 	for _, entry := range entries {
 

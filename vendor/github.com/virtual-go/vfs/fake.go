@@ -57,6 +57,19 @@ type Fake struct {
 		result1 *os.File
 		result2 error
 	}
+	ReadDirStub        func(dirname string) ([]os.FileInfo, error)
+	readDirMutex       sync.RWMutex
+	readDirArgsForCall []struct {
+		dirname string
+	}
+	readDirReturns struct {
+		result1 []os.FileInfo
+		result2 error
+	}
+	readDirReturnsOnCall map[int]struct {
+		result1 []os.FileInfo
+		result2 error
+	}
 	RemoveAllStub        func(path string) error
 	removeAllMutex       sync.RWMutex
 	removeAllArgsForCall []struct {
@@ -285,6 +298,57 @@ func (fake *Fake) OpenReturnsOnCall(i int, result1 *os.File, result2 error) {
 	}{result1, result2}
 }
 
+func (fake *Fake) ReadDir(dirname string) ([]os.FileInfo, error) {
+	fake.readDirMutex.Lock()
+	ret, specificReturn := fake.readDirReturnsOnCall[len(fake.readDirArgsForCall)]
+	fake.readDirArgsForCall = append(fake.readDirArgsForCall, struct {
+		dirname string
+	}{dirname})
+	fake.recordInvocation("ReadDir", []interface{}{dirname})
+	fake.readDirMutex.Unlock()
+	if fake.ReadDirStub != nil {
+		return fake.ReadDirStub(dirname)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fake.readDirReturns.result1, fake.readDirReturns.result2
+}
+
+func (fake *Fake) ReadDirCallCount() int {
+	fake.readDirMutex.RLock()
+	defer fake.readDirMutex.RUnlock()
+	return len(fake.readDirArgsForCall)
+}
+
+func (fake *Fake) ReadDirArgsForCall(i int) string {
+	fake.readDirMutex.RLock()
+	defer fake.readDirMutex.RUnlock()
+	return fake.readDirArgsForCall[i].dirname
+}
+
+func (fake *Fake) ReadDirReturns(result1 []os.FileInfo, result2 error) {
+	fake.ReadDirStub = nil
+	fake.readDirReturns = struct {
+		result1 []os.FileInfo
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *Fake) ReadDirReturnsOnCall(i int, result1 []os.FileInfo, result2 error) {
+	fake.ReadDirStub = nil
+	if fake.readDirReturnsOnCall == nil {
+		fake.readDirReturnsOnCall = make(map[int]struct {
+			result1 []os.FileInfo
+			result2 error
+		})
+	}
+	fake.readDirReturnsOnCall[i] = struct {
+		result1 []os.FileInfo
+		result2 error
+	}{result1, result2}
+}
+
 func (fake *Fake) RemoveAll(path string) error {
 	fake.removeAllMutex.Lock()
 	ret, specificReturn := fake.removeAllReturnsOnCall[len(fake.removeAllArgsForCall)]
@@ -395,6 +459,8 @@ func (fake *Fake) Invocations() map[string][][]interface{} {
 	defer fake.mkdirAllMutex.RUnlock()
 	fake.openMutex.RLock()
 	defer fake.openMutex.RUnlock()
+	fake.readDirMutex.RLock()
+	defer fake.readDirMutex.RUnlock()
 	fake.removeAllMutex.RLock()
 	defer fake.removeAllMutex.RUnlock()
 	fake.statMutex.RLock()

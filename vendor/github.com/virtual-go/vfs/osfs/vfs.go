@@ -2,6 +2,7 @@ package osfs
 
 import (
 	"github.com/virtual-go/vfs"
+	"io/ioutil"
 	"os"
 )
 
@@ -25,6 +26,10 @@ func (this _vfs) MkdirAll(path string, perm os.FileMode) error {
 
 func (this _vfs) Open(name string) (*os.File, error) {
 	return os.Open(name)
+}
+
+func (this _vfs) ReadDir(dirname string) ([]os.FileInfo, error) {
+	return ioutil.ReadDir(dirname)
 }
 
 func (this _vfs) RemoveAll(path string) error {
