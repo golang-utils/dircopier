@@ -17,9 +17,10 @@ type DirCopier interface {
 }
 
 func New() DirCopier {
+	_fs := osfs.New()
 	return dirCopier{
-		fs:         osfs.New(),
-		ioutil:     vioutil.New(),
+		fs:         _fs,
+		ioutil:     vioutil.New(_fs),
 		fileCopier: filecopier.New(),
 	}
 }

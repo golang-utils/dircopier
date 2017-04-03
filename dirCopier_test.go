@@ -173,9 +173,10 @@ var _ = Context("dirCopier", func() {
 
 							fakeFileCopier := new(filecopier.Fake)
 
+							_fs := osfs.New()
 							objectUnderTest := dirCopier{
-								fs:         osfs.New(),
-								ioutil:     vioutil.New(),
+								fs:         _fs,
+								ioutil:     vioutil.New(_fs),
 								fileCopier: fakeFileCopier,
 							}
 
@@ -223,9 +224,10 @@ var _ = Context("dirCopier", func() {
 
 								fakeFileCopier := new(filecopier.Fake)
 
+								_fs := osfs.New()
 								objectUnderTest := dirCopier{
-									fs:         osfs.New(),
-									ioutil:     vioutil.New(),
+									fs:         _fs,
+									ioutil:     vioutil.New(_fs),
 									fileCopier: fakeFileCopier,
 								}
 
