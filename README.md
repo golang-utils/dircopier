@@ -3,7 +3,7 @@
 
 # problem statement
 
-golang package for copying dirs in virtual-go
+golang package for copying dirs
 
 # features
 
