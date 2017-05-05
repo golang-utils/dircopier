@@ -4,70 +4,67 @@ package dircopier
 
 import (
 	"fmt"
-	"github.com/virtual-go/filecopier"
-	"github.com/virtual-go/fs"
-	"github.com/virtual-go/fs/osfs"
-	"github.com/virtual-go/vioutil"
+	"github.com/golang-interfaces/vioutil"
+	"github.com/golang-interfaces/vos"
+	"github.com/golang-utils/filecopier"
 	"path"
 )
 
 type DirCopier interface {
-	// copies a fs dir from srcPath to dstPath. Creates or overwrites the destination as needed.
-	Fs(srcPath string, dstPath string) (err error)
+	// OS copies an os dir from srcPath to dstPath. Creates or overwrites the destination as needed.
+	OS(srcPath string, dstPath string) (err error)
 }
 
 func New() DirCopier {
-	_fs := osfs.New()
 	return dirCopier{
-		fs:         _fs,
-		ioutil:     vioutil.New(_fs),
+		os:         vos.New(),
+		ioutil:     vioutil.New(),
 		fileCopier: filecopier.New(),
 	}
 }
 
 type dirCopier struct {
-	fs         fs.FS
+	os         vos.VOS
 	ioutil     vioutil.VIOUtil
 	fileCopier filecopier.FileCopier
 }
 
-func (this dirCopier) Fs(srcPath string, dstPath string) (err error) {
+func (dc dirCopier) OS(srcPath string, dstPath string) error {
 	// get properties of srcPath
-	fi, err := this.fs.Stat(srcPath)
+	fi, err := dc.os.Stat(srcPath)
 	if nil != err {
-		return
+		return err
 	}
 
 	if !fi.IsDir() {
-		err = fmt.Errorf("%v is not a dir", srcPath)
-		return
+		return fmt.Errorf("%v is not a dir", srcPath)
 	}
 
 	// create dstPath
-	err = this.fs.MkdirAll(dstPath, fi.Mode())
+	err = dc.os.MkdirAll(dstPath, fi.Mode())
 	if nil != err {
-		return
+		return err
 	}
 
-	entries, err := this.ioutil.ReadDir(srcPath)
+	entries, err := dc.ioutil.ReadDir(srcPath)
 
 	for _, entry := range entries {
 
 		sfp := path.Join(srcPath, entry.Name())
 		dfp := path.Join(dstPath, entry.Name())
 		if entry.IsDir() {
-			err = this.Fs(sfp, dfp)
+			err = dc.OS(sfp, dfp)
 			if nil != err {
-				return
+				return err
 			}
 		} else {
 			// perform copy
-			err = this.fileCopier.Fs(sfp, dfp)
+			err = dc.fileCopier.OS(sfp, dfp)
 			if nil != err {
-				return
+				return err
 			}
 		}
 
 	}
-	return
+	return err
 }
