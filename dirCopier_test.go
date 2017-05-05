@@ -3,12 +3,11 @@ package dircopier
 import (
 	"errors"
 	"fmt"
+	"github.com/golang-interfaces/vioutil"
+	"github.com/golang-interfaces/vos"
+	"github.com/golang-utils/filecopier"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/virtual-go/filecopier"
-	"github.com/virtual-go/fs"
-	"github.com/virtual-go/fs/osfs"
-	"github.com/virtual-go/vioutil"
 	"io/ioutil"
 	"os"
 	"path"
@@ -21,40 +20,40 @@ var _ = Context("dirCopier", func() {
 			Expect(New()).Should(Not(BeNil()))
 		})
 	})
-	Context("Fs", func() {
+	Context("OS", func() {
 
 		It("should call fs.Stat w/ expected args", func() {
 			/* arrange */
 			providedSrcPath := "dummySrcPath"
 
-			fakeFs := new(fs.Fake)
+			fakeOS := new(vos.Fake)
 			// trigger exit
-			fakeFs.StatReturns(nil, errors.New("dummyError"))
+			fakeOS.StatReturns(nil, errors.New("dummyError"))
 
 			objectUnderTest := dirCopier{
-				fs: fakeFs,
+				os: fakeOS,
 			}
 
 			/* act */
-			objectUnderTest.Fs(providedSrcPath, "dummyDstPath")
+			objectUnderTest.OS(providedSrcPath, "dummyDstPath")
 
 			/* assert */
-			Expect(fakeFs.StatArgsForCall(0)).To(Equal(providedSrcPath))
+			Expect(fakeOS.StatArgsForCall(0)).To(Equal(providedSrcPath))
 		})
 		Context("fs.Stat errors", func() {
 			It("should return expected error", func() {
 				/* arrange */
 				expectedError := errors.New("dummyError")
 
-				fakeFs := new(fs.Fake)
-				fakeFs.StatReturns(nil, expectedError)
+				fakeOS := new(vos.Fake)
+				fakeOS.StatReturns(nil, expectedError)
 
 				objectUnderTest := dirCopier{
-					fs: fakeFs,
+					os: fakeOS,
 				}
 
 				/* act */
-				actualError := objectUnderTest.Fs("dummySrcPath", "dummyDstPath")
+				actualError := objectUnderTest.OS("dummySrcPath", "dummyDstPath")
 
 				/* assert */
 				Expect(actualError).To(Equal(expectedError))
@@ -64,7 +63,7 @@ var _ = Context("dirCopier", func() {
 			Context("src isn't dir", func() {
 				It("should return expected error", func() {
 					/* arrange */
-					fakeFs := new(fs.Fake)
+					fakeOS := new(vos.Fake)
 					// create a real srcFile; no good way to stub os.FileInfo
 					srcFile, err := ioutil.TempFile("", "dirCopier_test")
 					defer srcFile.Close()
@@ -76,17 +75,17 @@ var _ = Context("dirCopier", func() {
 					if nil != err {
 						panic(err)
 					}
-					fakeFs.StatReturns(srcFileInfo, nil)
+					fakeOS.StatReturns(srcFileInfo, nil)
 
 					providedSrcPath := "dummySrcPath"
 					expectedError := fmt.Errorf("%v is not a dir", providedSrcPath)
 
 					objectUnderTest := dirCopier{
-						fs: fakeFs,
+						os: fakeOS,
 					}
 
 					/* act */
-					actualError := objectUnderTest.Fs(providedSrcPath, "dummyDstPath")
+					actualError := objectUnderTest.OS(providedSrcPath, "dummyDstPath")
 
 					/* assert */
 					Expect(actualError).To(Equal(expectedError))
@@ -97,51 +96,51 @@ var _ = Context("dirCopier", func() {
 					/* arrange */
 					providedDstPath := "dummyDstPath"
 
-					fakeFs := new(fs.Fake)
+					fakeOS := new(vos.Fake)
 					// create a real srcDir; no good way to stub os.FileInfo
 					srcDirInfo, err := os.Stat(os.TempDir())
 					if nil != err {
 						panic(err)
 					}
-					fakeFs.StatReturns(srcDirInfo, nil)
+					fakeOS.StatReturns(srcDirInfo, nil)
 
 					// trigger exit
-					fakeFs.MkdirAllReturns(errors.New("dummyError"))
+					fakeOS.MkdirAllReturns(errors.New("dummyError"))
 
 					objectUnderTest := dirCopier{
-						fs: fakeFs,
+						os: fakeOS,
 					}
 
 					/* act */
-					objectUnderTest.Fs("dummySrcPath", providedDstPath)
+					objectUnderTest.OS("dummySrcPath", providedDstPath)
 
 					/* assert */
-					actualDstDirPath, actualDstDirMode := fakeFs.MkdirAllArgsForCall(0)
+					actualDstDirPath, actualDstDirMode := fakeOS.MkdirAllArgsForCall(0)
 					Expect(actualDstDirPath).To(Equal(providedDstPath))
 					Expect(actualDstDirMode).To(Equal(srcDirInfo.Mode()))
 				})
 				Context("os.MkdirAll errors", func() {
 					It("should return expected error", func() {
 						/* arrange */
-						fakeFs := new(fs.Fake)
+						fakeOS := new(vos.Fake)
 						// create a real srcDir; no good way to stub os.FileInfo
 						srcDirInfo, err := os.Stat(os.TempDir())
 						if nil != err {
 							panic(err)
 						}
-						fakeFs.StatReturns(srcDirInfo, nil)
+						fakeOS.StatReturns(srcDirInfo, nil)
 
 						expectedError := errors.New("dummyError")
 
 						// trigger exit
-						fakeFs.MkdirAllReturns(expectedError)
+						fakeOS.MkdirAllReturns(expectedError)
 
 						objectUnderTest := dirCopier{
-							fs: fakeFs,
+							os: fakeOS,
 						}
 
 						/* act */
-						actualError := objectUnderTest.Fs("dummySrcPath", "dummyDstPath")
+						actualError := objectUnderTest.OS("dummySrcPath", "dummyDstPath")
 
 						/* assert */
 						Expect(actualError).To(Equal(expectedError))
@@ -173,18 +172,17 @@ var _ = Context("dirCopier", func() {
 
 							fakeFileCopier := new(filecopier.Fake)
 
-							_fs := osfs.New()
 							objectUnderTest := dirCopier{
-								fs:         _fs,
-								ioutil:     vioutil.New(_fs),
+								os:         vos.New(),
+								ioutil:     vioutil.New(),
 								fileCopier: fakeFileCopier,
 							}
 
 							/* act */
-							objectUnderTest.Fs(srcDirPath, dstDirPath)
+							objectUnderTest.OS(srcDirPath, dstDirPath)
 
 							/* assert */
-							actualSrcFilePath, actualDstFilePath := fakeFileCopier.FsArgsForCall(0)
+							actualSrcFilePath, actualDstFilePath := fakeFileCopier.OSArgsForCall(0)
 							Expect(actualSrcFilePath).To(Equal(expectedSrcFilePath))
 							Expect(actualDstFilePath).To(Equal(expectedDstFilePath))
 						})
@@ -224,18 +222,17 @@ var _ = Context("dirCopier", func() {
 
 								fakeFileCopier := new(filecopier.Fake)
 
-								_fs := osfs.New()
 								objectUnderTest := dirCopier{
-									fs:         _fs,
-									ioutil:     vioutil.New(_fs),
+									os:         vos.New(),
+									ioutil:     vioutil.New(),
 									fileCopier: fakeFileCopier,
 								}
 
 								/* act */
-								objectUnderTest.Fs(srcDirPath, dstDirPath)
+								objectUnderTest.OS(srcDirPath, dstDirPath)
 
 								/* assert */
-								actualSrcFilePath, actualDstFilePath := fakeFileCopier.FsArgsForCall(0)
+								actualSrcFilePath, actualDstFilePath := fakeFileCopier.OSArgsForCall(0)
 								Expect(actualSrcFilePath).To(Equal(expectedSrcChildDirFilePath))
 								Expect(actualDstFilePath).To(Equal(expectedDstChildDirFilePath))
 							})

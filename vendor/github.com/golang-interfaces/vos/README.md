@@ -1,13 +1,13 @@
-[![Build Status](https://travis-ci.org/golang-utils/dircopier.svg?branch=master)](https://travis-ci.org/golang-utils/dircopier)
-[![Coverage](https://codecov.io/gh/golang-utils/dircopier/branch/master/graph/badge.svg)](https://codecov.io/gh/golang-utils/dircopier)
+[![Build Status](https://travis-ci.org/golang-interfaces/vos.svg?branch=master)](https://travis-ci.org/golang-interfaces/vos)
+[![Coverage](https://codecov.io/gh/golang-interfaces/vos/branch/master/graph/badge.svg)](https://codecov.io/gh/golang-interfaces/vos)
 
 # problem statement
 
-golang package for copying dirs in virtual-go
+native [os package](https://golang.org/pkg/os/) exposed via interface
 
 # features
 
-- API exposed via interface
+- API compatible w/ native [os package](https://golang.org/pkg/os/) exposed via interface
 - fake implementation to allow faking interactions
 
 > *Be advised: this project is currently at Major version zero. Per the
@@ -19,7 +19,7 @@ golang package for copying dirs in virtual-go
 
 for every release:
 
-- source code will be [tagged](https://github.com/golang-utils/dircopier/tags).
+- source code will be [tagged](https://github.com/golang-interfaces/vos/tags).
 
 # Versioning
 

@@ -1,13 +1,13 @@
-[![Build Status](https://travis-ci.org/golang-utils/dircopier.svg?branch=master)](https://travis-ci.org/golang-utils/dircopier)
-[![Coverage](https://codecov.io/gh/golang-utils/dircopier/branch/master/graph/badge.svg)](https://codecov.io/gh/golang-utils/dircopier)
+[![Build Status](https://travis-ci.org/golang-interfaces/vioutil.svg?branch=master)](https://travis-ci.org/golang-interfaces/vioutil)
+[![Coverage](https://codecov.io/gh/golang-interfaces/vioutil/branch/master/graph/badge.svg)](https://codecov.io/gh/golang-interfaces/vioutil)
 
 # problem statement
 
-golang package for copying dirs in virtual-go
+native [ioutil](https://golang.org/pkg/io/ioutil/) package exposed via interface
 
 # features
 
-- API exposed via interface
+- API compatible w/ native [ioutil](https://golang.org/pkg/io/ioutil/) package exposed via interface
 - fake implementation to allow faking interactions
 
 > *Be advised: this project is currently at Major version zero. Per the
@@ -19,7 +19,7 @@ golang package for copying dirs in virtual-go
 
 for every release:
 
-- source code will be [tagged](https://github.com/golang-utils/dircopier/tags).
+- source code will be [tagged](https://github.com/golang-interfaces/vioutil/tags).
 
 # Versioning
 
