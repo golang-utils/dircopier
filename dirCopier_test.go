@@ -3,8 +3,8 @@ package dircopier
 import (
 	"errors"
 	"fmt"
-	"github.com/golang-interfaces/vioutil"
-	"github.com/golang-interfaces/vos"
+	"github.com/golang-interfaces/iioutil"
+	"github.com/golang-interfaces/ios"
 	"github.com/golang-utils/filecopier"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -26,7 +26,7 @@ var _ = Context("dirCopier", func() {
 			/* arrange */
 			providedSrcPath := "dummySrcPath"
 
-			fakeOS := new(vos.Fake)
+			fakeOS := new(ios.Fake)
 			// trigger exit
 			fakeOS.StatReturns(nil, errors.New("dummyError"))
 
@@ -45,7 +45,7 @@ var _ = Context("dirCopier", func() {
 				/* arrange */
 				expectedError := errors.New("dummyError")
 
-				fakeOS := new(vos.Fake)
+				fakeOS := new(ios.Fake)
 				fakeOS.StatReturns(nil, expectedError)
 
 				objectUnderTest := dirCopier{
@@ -63,7 +63,7 @@ var _ = Context("dirCopier", func() {
 			Context("src isn't dir", func() {
 				It("should return expected error", func() {
 					/* arrange */
-					fakeOS := new(vos.Fake)
+					fakeOS := new(ios.Fake)
 					// create a real srcFile; no good way to stub os.FileInfo
 					srcFile, err := ioutil.TempFile("", "dirCopier_test")
 					defer srcFile.Close()
@@ -96,7 +96,7 @@ var _ = Context("dirCopier", func() {
 					/* arrange */
 					providedDstPath := "dummyDstPath"
 
-					fakeOS := new(vos.Fake)
+					fakeOS := new(ios.Fake)
 					// create a real srcDir; no good way to stub os.FileInfo
 					srcDirInfo, err := os.Stat(os.TempDir())
 					if nil != err {
@@ -122,7 +122,7 @@ var _ = Context("dirCopier", func() {
 				Context("os.MkdirAll errors", func() {
 					It("should return expected error", func() {
 						/* arrange */
-						fakeOS := new(vos.Fake)
+						fakeOS := new(ios.Fake)
 						// create a real srcDir; no good way to stub os.FileInfo
 						srcDirInfo, err := os.Stat(os.TempDir())
 						if nil != err {
@@ -173,8 +173,8 @@ var _ = Context("dirCopier", func() {
 							fakeFileCopier := new(filecopier.Fake)
 
 							objectUnderTest := dirCopier{
-								os:         vos.New(),
-								ioutil:     vioutil.New(),
+								os:         ios.New(),
+								ioutil:     iioutil.New(),
 								fileCopier: fakeFileCopier,
 							}
 
@@ -223,8 +223,8 @@ var _ = Context("dirCopier", func() {
 								fakeFileCopier := new(filecopier.Fake)
 
 								objectUnderTest := dirCopier{
-									os:         vos.New(),
-									ioutil:     vioutil.New(),
+									os:         ios.New(),
+									ioutil:     iioutil.New(),
 									fileCopier: fakeFileCopier,
 								}
 
