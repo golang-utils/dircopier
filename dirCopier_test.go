@@ -10,7 +10,7 @@ import (
 	. "github.com/onsi/gomega"
 	"io/ioutil"
 	"os"
-	"path"
+  "path/filepath"
 )
 
 var _ = Context("dirCopier", func() {
@@ -162,8 +162,8 @@ var _ = Context("dirCopier", func() {
 
 							// create a real file
 							fileName := "file.dummy"
-							expectedSrcFilePath := path.Join(srcDirPath, fileName)
-							expectedDstFilePath := path.Join(dstDirPath, fileName)
+							expectedSrcFilePath := filepath.Join(srcDirPath, fileName)
+							expectedDstFilePath := filepath.Join(dstDirPath, fileName)
 							file, err := os.Create(expectedSrcFilePath)
 							defer file.Close()
 							if nil != err {
@@ -203,8 +203,8 @@ var _ = Context("dirCopier", func() {
 
 								// create a real srcChildDir
 								childDirName := "dummyDir"
-								srcChildDirPath := path.Join(srcDirPath, childDirName)
-								dstChildDirPath := path.Join(dstDirPath, childDirName)
+								srcChildDirPath := filepath.Join(srcDirPath, childDirName)
+								dstChildDirPath := filepath.Join(dstDirPath, childDirName)
 								err = os.Mkdir(srcChildDirPath, 0600)
 								if nil != err {
 									panic(err)
@@ -212,8 +212,8 @@ var _ = Context("dirCopier", func() {
 
 								// create a real srcChildDirFile
 								childDirFileFileName := "file.dummy"
-								expectedSrcChildDirFilePath := path.Join(srcChildDirPath, childDirFileFileName)
-								expectedDstChildDirFilePath := path.Join(dstChildDirPath, childDirFileFileName)
+								expectedSrcChildDirFilePath := filepath.Join(srcChildDirPath, childDirFileFileName)
+								expectedDstChildDirFilePath := filepath.Join(dstChildDirPath, childDirFileFileName)
 								childDirFile, err := os.Create(expectedSrcChildDirFilePath)
 								defer childDirFile.Close()
 								if nil != err {
