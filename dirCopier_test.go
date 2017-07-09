@@ -10,7 +10,7 @@ import (
 	. "github.com/onsi/gomega"
 	"io/ioutil"
 	"os"
-  "path/filepath"
+	"path/filepath"
 )
 
 var _ = Context("dirCopier", func() {
